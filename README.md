@@ -2,5 +2,5 @@
 
 
 ## Feito por: 
-Ricardo Antunes, 98275
-Gonçalo Silva, 103668
+  - Ricardo Antunes, 98275
+  - Gonçalo Silva, 103668
