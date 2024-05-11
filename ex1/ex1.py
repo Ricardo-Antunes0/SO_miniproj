@@ -141,7 +141,6 @@ for s, big_s in inventory_policies:
     setup_cost = 32 # setup cost
     incremental_cost = 3 # incremental cost
     end_of_simulation = 120
-    backlog = []    # Lista de pedidos em backlogged
     inventory = []
 
     # state variables

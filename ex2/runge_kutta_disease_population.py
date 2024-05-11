@@ -30,10 +30,8 @@ def update(dt, beta, k):
     global s, i, r
 
     K1_s, K1_i, K1_r = k_calculator(s, i, beta, k, dt)
-    K2_s, K2_i, K2_r = k_calculator(
-        s + 0.5 * K1_s, i + 0.5 * K1_i, beta, k, dt)
-    K3_s, K3_i, K3_r = k_calculator(
-        s + 0.5 * K2_s, i + 0.5 * K2_i, beta, k, dt)
+    K2_s, K2_i, K2_r = k_calculator(s + 0.5 * K1_s, i + 0.5 * K1_i, beta, k, dt)
+    K3_s, K3_i, K3_r = k_calculator(s + 0.5 * K2_s, i + 0.5 * K2_i, beta, k, dt)
     K4_s, K4_i, K4_r = k_calculator(s + K3_s, i + K3_i, beta, k, dt)
 
     s += (K1_s + 2 * K2_s + 2 * K3_s + K4_s) / 6
