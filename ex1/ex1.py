@@ -2,6 +2,7 @@ import random
 import sys
 from turtle import back
 
+
 def timing():
     global next_event_type
     global time_next_event
@@ -37,8 +38,9 @@ def update_costs():
         backlog_time += sim_time - time_last_event
     elif inventory_level > 0:
         handling_cost += inventory_level * (sim_time - time_last_event)
-    else: 
+    else:
         return
+
 
 def evaluate_inventory():
     global time_next_event
@@ -51,21 +53,23 @@ def evaluate_inventory():
     global express_orders
     global total_orders
 
-
     if inventory_level < s:
         total_orders += 1
         z = big_s - inventory_level  # Z itens
-        # inventario < 0 significa que fazemos uma encomenda express e que o tempo de entrega sera uniformly distributed on [0.25, 0.50] month. 
+        # inventario < 0 significa que fazemos uma encomenda express e que o tempo de entrega sera uniformly distributed on [0.25, 0.50] month.
         if inventory_level < 0:
             express_orders += 1
             order_cost += 48 + 4 * z
-            time_next_event['arrive_order'] = sim_time + random.uniform(0.25, 0.5)
+            time_next_event['arrive_order'] = sim_time + \
+                random.uniform(0.25, 0.5)
         # Calcular o custo total do pedido
         order_cost += setup_cost + incremental_cost * z
         # Adicionar o tempo de chegada do pedido ao evento
         time_next_event['arrive_order'] = sim_time + random.uniform(0.5, 1)
 
-    time_next_event['evaluate_inventory'] = sim_time + 1  # Avalia novamente após 1 "mês"
+    time_next_event['evaluate_inventory'] = sim_time + \
+        1  # Avalia novamente após 1 "mês"
+
 
 def supplier_arrival():
     global time_next_event
@@ -77,11 +81,13 @@ def supplier_arrival():
     global inventory
 
     for _ in range(z):
-        shelf_life = sim_time + random.uniform(1.5, 2.5)  # Tempo atual + validade do produto
+        # Tempo atual + validade do produto
+        shelf_life = sim_time + random.uniform(1.5, 2.5)
         inventory.append(shelf_life)
 
-    inventory_level += z  
+    inventory_level += z
     time_next_event["arrive_order"] = 1e9
+
 
 def generate_demand():
     rand = random.random()
@@ -93,6 +99,7 @@ def generate_demand():
         return 3
     else:
         return 4
+
 
 def customer_demand():
     global time_next_event
@@ -111,7 +118,7 @@ def customer_demand():
     while demand > 0 and inventory:
         item = inventory[0]     # Get the first item in the inventory
         if item >= sim_time:    # Check if the item is still valid
-            demand -= 1   
+            demand -= 1
             inventory.pop(0)    # Remove the item from the inventory
             inventory_level -= 1
         else:
@@ -143,8 +150,8 @@ for s, big_s in inventory_policies:
     sim_time = 0.0
 
     # Parâmetros do sistema de inventário
-    setup_cost = 32 # setup cost
-    incremental_cost = 3 # incremental cost
+    setup_cost = 32  # setup cost
+    incremental_cost = 3  # incremental cost
     end_of_simulation = 120
     inventory = []
 
@@ -162,7 +169,7 @@ for s, big_s in inventory_policies:
     express_orders = 0
     total_orders = 0
 
-    backlog_time = 0      
+    backlog_time = 0
 
     time_next_event = {}
     time_next_event['demand_customer'] = sim_time + random.expovariate(1/0.1)
@@ -180,14 +187,16 @@ for s, big_s in inventory_policies:
             customer_demand()
         elif next_event_type == 'evaluate_inventory':
             evaluate_inventory()
-        
+
     order_cost /= end_of_simulation
     handling_cost /= end_of_simulation
     shortage_cost /= end_of_simulation
     shortage_cost *= 5
 
     total_cost = order_cost + handling_cost + shortage_cost
-    backlog_time /= end_of_simulation
+
+    backlog_proportion = (backlog_time / end_of_simulation) * 100
+
     """
     print('For s =', s, 'and S =', big_s, 'the results are:')
     print('Total cost is', total_cost)
@@ -197,8 +206,6 @@ for s, big_s in inventory_policies:
     print('End of simulation at', sim_time)
     print('Inventory level is', inventory_level)
     """
-    print(f'({s},{big_s}):     {total_cost:<16.2f}{order_cost:<18.2f}{handling_cost:<16.2f}{shortage_cost:<15.2f}{backlog_time:<15.2f}')
+    print(f'({s},{big_s}):     {total_cost:<16.2f}{order_cost:<18.2f}{handling_cost:<16.2f}{shortage_cost:<15.2f}{backlog_proportion:<15.2f}')
 
-
-    print("Express orders %:", (express_orders/total_orders) * 100)
-
+    print("Express orders %:", (express_orders))
