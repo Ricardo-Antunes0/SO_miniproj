@@ -92,6 +92,7 @@ def main():
     plt.plot(r_result, label='Recovered')
     plt.xlabel('Time')
     plt.ylabel('Population')
+    plt.title('Disease Spread Evolution  - Runge-Kutta Method')
     plt.legend()
     plt.grid()
     plt.savefig('results/disease_population_rungekutta.png')
