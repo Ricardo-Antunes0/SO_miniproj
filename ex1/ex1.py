@@ -134,8 +134,9 @@ def customer_demand():
 
 
 print('Starting simulation')
-print('-------------------')
-print('Policy      Total cost    Ordering cost    Handling cost    Shortage cost   Backlog time')
+print('---------------------------------------------------------------------------------------------------------------------')
+print('| Policy   |   Total cost   |  Ordering cost  |  Handling cost  |  Shortage cost  |  Backlog time  |  Express orders |')
+print('---------------------------------------------------------------------------------------------------------------------')
 
 # Define os nove pares de valores de s e S
 inventory_policies = [(20, 40), (20, 60), (20, 80), (20, 100),
@@ -197,15 +198,5 @@ for s, big_s in inventory_policies:
 
     backlog_proportion = (backlog_time / end_of_simulation) * 100
 
-    """
-    print('For s =', s, 'and S =', big_s, 'the results are:')
-    print('Total cost is', total_cost)
-    print('Total ordering cost is', order_cost)
-    print('Total handling cost is', handling_cost)
-    print('Total shortage cost is', shortage_cost)
-    print('End of simulation at', sim_time)
-    print('Inventory level is', inventory_level)
-    """
-    print(f'({s},{big_s}):     {total_cost:<16.2f}{order_cost:<18.2f}{handling_cost:<16.2f}{shortage_cost:<15.2f}{backlog_proportion:<15.2f}')
+    print(f'| ({s},{big_s})  |   {total_cost:<10.2f}   |   {order_cost:<11.2f}   |   {handling_cost:<11.2f}   |   {shortage_cost:<11.2f}   |   {backlog_proportion:<10.2f}   |   {express_orders:<13.2f} |')
 
-    print("Express orders %:", (express_orders))
