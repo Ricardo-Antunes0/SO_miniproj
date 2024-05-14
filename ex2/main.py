@@ -1,6 +1,6 @@
 import argparse
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 def initialize(s0, i0, r0):
     global s, i, r, s_result, i_result, r_result
@@ -56,6 +56,11 @@ def run_simulation(method, dt, beta, k, tfinal, s0, i0, r0):
             update_runge_kutta(dt, beta, k)
         observe()
 
+def calculate_error(euler_s, euler_i, euler_r, runge_s, runge_i, runge_r):
+    error_s = np.abs(np.array(euler_s) - np.array(runge_s))
+    error_i = np.abs(np.array(euler_i) - np.array(runge_i))
+    error_r = np.abs(np.array(euler_r) - np.array(runge_r))
+    return error_s, error_i, error_r
 
 def main():
     parser = argparse.ArgumentParser(
@@ -101,11 +106,20 @@ def main():
         plt.plot(s_result, label=f'Susceptible ({args.method})')
         plt.plot(i_result, label=f'Infected ({args.method})')
         plt.plot(r_result, label=f'Recovered ({args.method})')
+
+        plt.xlabel('Time')
+        plt.ylabel('Population')
+        plt.title(f'Disease Spread Simulation - {args.method}')
+        plt.legend()
+        plt.grid()
+        plt.savefig(f'results/disease_population_{args.method}.png')
+        plt.show()
     else:
         run_simulation('euler', dt, beta, k, tfinal, s0, i0, r0)
         plt.plot(s_result, label='Susceptible (Euler)')
         plt.plot(i_result, label='Infected (Euler)')
         plt.plot(r_result, label='Recovered (Euler)')
+        euler_s, euler_i, euler_r = s_result.copy(), i_result.copy(), r_result.copy()
         s_result.clear()
         i_result.clear()
         r_result.clear()
@@ -114,12 +128,27 @@ def main():
         plt.plot(i_result, label='Infected (Runge-Kutta)')
         plt.plot(r_result, label='Recovered (Runge-Kutta)')
 
-    plt.xlabel('Time')
-    plt.ylabel('Population')
-    plt.legend()
-    plt.grid()
-    plt.savefig('results/disease_population_comparison.png')
-    plt.show()
+        plt.xlabel('Time')
+        plt.ylabel('Population')
+        plt.title('Disease Spread Simulation - Euler vs Runge-Kutta')
+        plt.legend()
+        plt.grid()
+        plt.savefig('results/disease_population_comparison.png')
+        plt.show()
+
+        error_s, error_i, error_r = calculate_error(euler_s, euler_i, euler_r, s_result, i_result, r_result)
+        plt.figure()
+        plt.plot(error_s, label='Error in Susceptible')
+        plt.plot(error_i, label='Error in Infected')
+        plt.plot(error_r, label='Error in Recovered')
+        plt.xlabel('Time')
+        plt.ylabel('Error')
+        plt.title('Error of Euler')
+        plt.legend()
+        plt.grid()
+        plt.savefig('results/error_euler.png')
+        plt.show()
+
 
 
 if __name__ == '__main__':
