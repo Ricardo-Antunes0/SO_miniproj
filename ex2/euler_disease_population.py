@@ -32,21 +32,15 @@ def main():
         description='Euler method for evolution of infectious disease in a population')
 
     # Add the parameters positional/optional
-    parser.add_argument('--s0', type=float, default=0.99,
-                        help='Initial susceptible population')
-    parser.add_argument('--i0', type=float, default=0.01,
-                        help='Initial infected population')
-    parser.add_argument('--r0', type=float, default=0.0,
-                        help='Initial recovered population')
-    parser.add_argument('--beta', type=float, default=0.3,
-                        help='Infection rate')
+    parser.add_argument('--s0', type=float, default=0.99,help='Initial susceptible population')
+    parser.add_argument('--i0', type=float, default=0.01,help='Initial infected population')
+    parser.add_argument('--r0', type=float, default=0.0,help='Initial recovered population')
+    parser.add_argument('--beta', type=float, default=0.3,help='Infection rate')
     parser.add_argument('--k', type=float, default=0.1, help='Recovery rate')
     parser.add_argument('--t', type=float, default=10.0, help='Total time')
     parser.add_argument('--dt', type=float, default=0.01, help='Time step')
-    parser.add_argument('--f', type=str, default=None,
-                        help='file with variables')
-    parser.add_argument('--h', action='help',
-                        help='show this help message and exit')
+    parser.add_argument('--f', type=str, default=None,help='file with variables')
+    parser.add_argument('--h', action='help',help='show this help message and exit')
 
     # Parse the arguments
     args = parser.parse_args()

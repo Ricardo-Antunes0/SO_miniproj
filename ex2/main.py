@@ -37,10 +37,8 @@ def update_runge_kutta(dt, beta, k):
     global s, i, r
 
     K1_s, K1_i, K1_r = k_calculator(s, i, beta, k, dt)
-    K2_s, K2_i, K2_r = k_calculator(
-        s + 0.5 * K1_s, i + 0.5 * K1_i, beta, k, dt)
-    K3_s, K3_i, K3_r = k_calculator(
-        s + 0.5 * K2_s, i + 0.5 * K2_i, beta, k, dt)
+    K2_s, K2_i, K2_r = k_calculator(s + 0.5 * K1_s, i + 0.5 * K1_i, beta, k, dt)
+    K3_s, K3_i, K3_r = k_calculator(s + 0.5 * K2_s, i + 0.5 * K2_i, beta, k, dt)
     K4_s, K4_i, K4_r = k_calculator(s + K3_s, i + K3_i, beta, k, dt)
 
     s += (K1_s + 2 * K2_s + 2 * K3_s + K4_s) / 6
@@ -62,23 +60,16 @@ def run_simulation(method, dt, beta, k, tfinal, s0, i0, r0):
 def main():
     parser = argparse.ArgumentParser(
         description='Simulate infectious disease spread using Euler or Runge-Kutta method')
-    parser.add_argument('--s0', type=float, default=0.99,
-                        help='Initial susceptible population')
-    parser.add_argument('--i0', type=float, default=0.01,
-                        help='Initial infected population')
-    parser.add_argument('--r0', type=float, default=0.0,
-                        help='Initial recovered population')
-    parser.add_argument('--beta', type=float, default=0.3,
-                        help='Infection rate')
+    parser.add_argument('--s0', type=float, default=0.99,help='Initial susceptible population')
+    parser.add_argument('--i0', type=float, default=0.01,help='Initial infected population')
+    parser.add_argument('--r0', type=float, default=0.0,help='Initial recovered population')
+    parser.add_argument('--beta', type=float, default=0.3, help='Infection rate')
     parser.add_argument('--k', type=float, default=0.1, help='Recovery rate')
     parser.add_argument('--t', type=float, default=10.0, help='Total time')
     parser.add_argument('--dt', type=float, default=0.01, help='Time step')
-    parser.add_argument('--f', type=str, default=None,
-                        help='File with variables')
-    parser.add_argument(
-        '--method', type=str, choices=['euler', 'runge-kutta'], default=None, help='Simulation method')
-    parser.add_argument('--h', action='help',
-                        help='Show this help message and exit')
+    parser.add_argument('--f', type=str, default=None,help='File with variables')
+    parser.add_argument('--method', type=str, choices=['euler', 'runge-kutta'], default=None, help='Simulation method')
+    parser.add_argument('--h', action='help',help='Show this help message and exit')
 
     args = parser.parse_args()
 
