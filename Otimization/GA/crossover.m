@@ -20,7 +20,8 @@ function offspring = crossover(population, n)
         parent2 = population(parent2_index2, 1:end-1);
     end
     
-    offspring = union(parent1,parent2);
-    offspring = offspring(randperm(length(offspring),n));
+    offspring = [parent1, parent2];
+    offspring = unique(offspring);
+    offspring = offspring(randperm(length(offspring),n)); 
 end
 

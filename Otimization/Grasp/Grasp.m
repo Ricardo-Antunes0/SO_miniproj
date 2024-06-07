@@ -1,9 +1,9 @@
-function best_value = Grasp(G,n,r,time)
+function [best_value, exec_time, iterations] = Grasp(G,n,r,time)
     start_time = tic;
     current_solution = GreedyRandomized(G,n,r);
     [best_solution, best_value]= SA_HC(G,current_solution);
     iterations = 1;
-    
+        
     while (toc(start_time) < time)
         iterations = iterations + 1;
         current_solution = GreedyRandomized(G,n,r);
@@ -13,4 +13,5 @@ function best_value = Grasp(G,n,r,time)
             best_solution = current_solution;
         end
     end
+    exec_time = toc(start_time);
 end

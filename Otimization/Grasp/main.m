@@ -5,26 +5,30 @@ nNodes= size(Nodes,1);
 nLinks= size(Links,1);
 G=graph(L);
 
-n = 10;
-r = 3;
 
+rValues = [2,3,4];
 cValues = [8,10,12];
-maxTime = 60;
 attempts = 10;
+maxTime = 60;
 
-
-for c = cValues
-    min = inf;
-    max = 0;
-    average = 0;
-    for i = 1:attempts
-        best_solution = Grasp(G,n,r,maxTime);
-        if(best_solution < min)
-            min = best_solution;
-        elseif(best_solution > max)
-            max = best_solution;    
+for r = rValues
+    for c = cValues
+        min = inf;
+        max = 0;
+        average = 0;
+        for i = 1:attempts
+            [best_solution,exec_time,iterations] = Grasp(G,c,r,maxTime);
+            if(best_solution < min)
+                min = best_solution;
+            end
+            if(best_solution > max)
+                max = best_solution;    
+            end
+            average = average + best_solution;
+            disp(exec_time);
+            disp(best_solution);
         end
-        average = average + best_solution;
+        fprintf("\n r = %d\n", r);
+        fprintf("\nResults for c = %d on %d runs\n max: %d\n min: %d\naverage: %.3f\n",c,attempts,max,min,average/attempts);
     end
-    fprintf("Results for c = %d over %d runs\nmin: %d\nmax: %d\naverage: %.3f\n",c,attempts,min,max,average / attempts);
 end
