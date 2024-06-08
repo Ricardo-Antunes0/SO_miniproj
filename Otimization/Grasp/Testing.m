@@ -6,10 +6,11 @@ nLinks= size(Links,1);
 G=graph(L);
 
 
+% This program is to test the GRASP algorithm with different parameters 
+
 rValues = [2,3,4,10,30,50];
 cValues = [8,10,12];
 maxTime = 60;
-
 
 for r = rValues
     for c = cValues    

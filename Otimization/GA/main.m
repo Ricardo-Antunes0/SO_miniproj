@@ -6,11 +6,11 @@ nLinks= size(Links,1);
 G=graph(L);
 
 population_size = 100;
-mutation_prob = 0.1;
-mValues = [1,10,100];
+mutation_prob = 0.5;
+mValues = [10];
 attempts = 10;
 maxTime = 60;
-cValues = [8,10,12];
+cValues = [12];
 
 for m = mValues
     for c = cValues
@@ -19,7 +19,7 @@ for m = mValues
         average = 0;
         exec_time_media = 0;
         for i = 1:attempts
-            [best_solution,generation_count,time_found, exec_time,count] = GA(G,c,population_size,mutation_prob,m,maxTime);
+            [best_solution,generation_count,time_found, exec_time] = GA(G,c,population_size,mutation_prob,m,maxTime);
             if(best_solution < min)
                 min = best_solution;
             end

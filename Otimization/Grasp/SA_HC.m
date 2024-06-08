@@ -1,6 +1,6 @@
 function [current_solution, current_value]=SA_HC(G,current_solution)
     % G:                 graph of the network
-    % current_solution:  A solution
+    % current_solution:  A solution to improve
    
     nNodes = numnodes(G);
     improved = true;
@@ -9,7 +9,6 @@ function [current_solution, current_value]=SA_HC(G,current_solution)
     while improved
         improved = false;
         others= setdiff(1:nNodes,current_solution);
-        
         best_neighbor_value = inf;
      
         for a = current_solution

@@ -1,6 +1,6 @@
 function [current_solution, current_value]=SA_HC2(G,current_solution)
     % G:                 graph of the network
-    % current_solution:  A solution
+    % current_solution:  A solution to improve
    
     improved = true;
     current_value = ConnectedNP(G,current_solution);

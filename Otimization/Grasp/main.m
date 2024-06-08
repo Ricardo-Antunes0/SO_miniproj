@@ -6,7 +6,7 @@ nLinks= size(Links,1);
 G=graph(L);
 
 
-rValues = [2,3,4];
+rValues = [2,3,4,10,30,50];
 cValues = [8,10,12];
 attempts = 10;
 maxTime = 60;
@@ -28,7 +28,6 @@ for r = rValues
             disp(exec_time);
             disp(best_solution);
         end
-        fprintf("\n r = %d\n", r);
-        fprintf("\nResults for c = %d on %d runs\n max: %d\n min: %d\naverage: %.3f\n",c,attempts,max,min,average/attempts);
+        fprintf("\nResults for c = %d r=%d on %d runs\n max: %d\n min: %d\naverage: %.3f\n",c,r,attempts,max,min,average/attempts);
     end
 end

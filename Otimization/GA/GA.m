@@ -11,7 +11,7 @@ function [best_solution,generation_count,time_found,exec_time] = GA(G,n,populati
     end
     while toc(start_time) < end_time
         generation_count = generation_count + 1;
-        % Ordenar a populacao pela ultima coluna (valores objetivos da pop)
+        % Ordenar a populacao pela ultima coluna (valores objetivos)
         population = sortrows(population, n+1);
         new_population = zeros(population_size, n+1);  % nova populacao 
  
@@ -20,17 +20,17 @@ function [best_solution,generation_count,time_found,exec_time] = GA(G,n,populati
             if(rand() < mutation_prob)
                s = mutation(s, G);
             end
-            % P´ = P´ U {s} adicionando o fitness value na ultima linha
+            % P´ = P´ U {s} adicionando o valor objetivo na ultima coluna
             new_population(i,:) = [s ConnectedNP(G,s)];
         end
         new_population = sortrows(new_population, n+1);
         if(new_population(1,end) < population(1,end))
             time_found = toc(start_time);
         end
+        % selection
         combined_population = [population(1:m,:); new_population];
         sortrows(combined_population, n+1);
         population = combined_population(1:end-m,:);
-
     end
     best_solution = population(1,end);
     exec_time = toc(start_time);
